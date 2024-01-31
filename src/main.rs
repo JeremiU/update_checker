@@ -1,6 +1,6 @@
 mod util;
 
-use std::fs;
+use std::{env, fs};
 use std::fs::File;
 use std::io::prelude::*;
 use std::time::Duration;
@@ -11,8 +11,40 @@ const FILE_PREFIX: &str = "page";
 
 #[tokio::main]
 async fn main() {
-    let mut interval = time::interval(Duration::from_secs(30));
-    let content = html("https://policy.cornell.edu/policy-library/interim-expressive-activity-policy").await.unwrap();
+    let args: Vec<String> = env::args().collect();
+
+    //for more generic use cases, you can run the program to check a different URL or run at a different interval
+    let mut url = "https://policy.cornell.edu/policy-library/interim-expressive-activity-policy".to_owned();
+    let mut interval_sec: u64 = 30;
+
+    match args.len() {
+        2 | 3 => {
+            if args[1].starts_with("http") {
+                url = args[1].to_owned();
+            } else {
+                url = format!("https://{}", args[1].to_owned());
+            }
+            if args.len() == 3 {
+                match args[2].parse::<u64>() {
+                    Ok(i) => {
+                        interval_sec = i;
+                    }
+                    Err(_) => {
+                        println!("Incorrect argument! Must be integer from 30 - 86,400. Set to 30.");
+                        interval_sec = 30;
+                    }
+                }
+            }
+        }
+        0 | 1 => {}
+        _ => {
+            println!("Running default configuration!");
+            println!("Syntax: {} [website url] [interval]", args[0]);
+        }
+    }
+
+    let mut interval = time::interval(Duration::from_secs(interval_sec));
+    let content = html(&url).await.unwrap();
 
     loop {
         interval.tick().await;
@@ -22,7 +54,7 @@ async fn main() {
             file.write_all(content.as_bytes()).unwrap();
             println!("Site has been updated!");
         } else {
-            println!("Local copy is to up to date!");
+            println!("Local copy is to up to date! ({})", time().as_str());
         }
     }
 }
