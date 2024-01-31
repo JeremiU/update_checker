@@ -105,6 +105,7 @@ async fn is_current(output: &str) -> Result<bool, std::io::Error> {
     };
 
     if !exists {
+        println!("Base file doesn't exist! Downloading website");
         return Ok(false);
     }
 

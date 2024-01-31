@@ -14,7 +14,7 @@ pub async fn html(url: &str) -> Result<String, Box<dyn std::error::Error>> {
 /// Format the system time
 pub fn time() -> String {
     let datetime: DateTime<Utc> = (UNIX_EPOCH + Duration::from_nanos(sys_time() as u64)).into();
-    datetime.with_timezone(&New_York).format("%m_%d_%y %H:%M:%S").to_string()
+    datetime.with_timezone(&New_York).format("%m_%d_%y %H∶%M∶%S").to_string()
 }
 
 ///Returns the system time
