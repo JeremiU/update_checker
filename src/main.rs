@@ -52,7 +52,6 @@ async fn main() {
         if !is_current(&content).await.unwrap() {
             let mut file = File::create(file_name(AccessType::WRITE)).unwrap();
             file.write_all(content.as_bytes()).unwrap();
-            println!("Site has been updated!");
         } else {
             println!("Local copy is to up to date! ({})", time().as_str());
         }
@@ -113,5 +112,15 @@ async fn is_current(output: &str) -> Result<bool, std::io::Error> {
     let file_name = file_name(AccessType::READ);
     println!("Comparing website with local copy: {file_name}"); //log
     let content = fs::read_to_string(file_name)?;
+
+    if content.trim() != output.trim() {
+        println!("Site HTML has been updated!");
+        if html_to_text(&content).eq(&html_to_text(output)) {
+            println!("\tSite text likely not affected!");
+        } else {
+            println!("\tSite text most likely affected!");
+        }
+    }
+
     Ok(content.trim() == output.trim())
 }

@@ -1,6 +1,7 @@
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 use chrono::{DateTime, Utc};
 use chrono_tz::America::New_York;
+use scraper::{Html, Selector};
 
 #[derive(PartialEq)]
 pub enum AccessType { WRITE, READ }
@@ -23,4 +24,15 @@ fn sys_time() -> u128 {
         Ok(duration) => duration.as_nanos(),
         Err(_) => 0
     };
+}
+
+pub fn html_to_text(html: &str) -> String {
+    let fragment = Html::parse_fragment(&html);
+    let selector = Selector::parse("*").unwrap();
+
+    let mut text = String::new();
+    for element in fragment.select(&selector) {
+        text.push_str(&element.text().collect::<Vec<_>>().join(" "));
+    }
+    return text.to_owned();
 }

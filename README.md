@@ -1,9 +1,9 @@
 ## Update Checker
 
 This is a simple rust program which is meant to be ran continuously. It polls a website every 30 seconds to 
-see if any changes have been made. Note that this checks for differences in HTML, so it may flag updates to the website
-code that don't reflect on the website, i.e. internal changes. I'll work on a tool for checking just the text of the 
-website later, but for now, this should be useful.
+see if any changes have been made. The program checks differences in the HTML representation of the website, so it 
+may flag chances that aren't reflected in a browser. It runs an additional check to see if the text that is displayed 
+on the website changes, although checking manually by opening the older file is still recommended.
 
 ## Running
 
