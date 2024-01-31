@@ -16,8 +16,8 @@ directory of your choice. This will be where the program saves HTML files.
 A terminal is an application that users interface with by typing commands, as opposed to visual elements 
 (like in a GUI). Our program is a terminal program, meaning it doesn't have any visual elements, and instead is ran
 by typing a command. A terminal is opened at a directory, usually the user directory, and from there, you must 
-navigate to the program you want to run. For any terminal, the command `cd` should work. It stands for *c*hange 
-*d*irectory, and by typing `cd "directory path"`, we can navigate into the `directory path` folder. The quotes ensure
+navigate to the program you want to run. For any terminal, the command `cd` should work. It stands for **c**hange 
+**d**irectory, and by typing `cd "directory path"`, we can navigate into the `directory path` folder. The quotes ensure
 you can `cd` into paths with spaces. On mac/linux, you can view the files and folders in your current directory by typing 
 `ls` (`dir` on Windows). From there, you can choose which folder to `cd` into.
 
